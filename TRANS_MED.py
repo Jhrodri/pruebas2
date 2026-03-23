@@ -135,8 +135,8 @@ def finalize_results(irradiancia_suelo, ghi_real, times, aportes=None):
     return energia_interior_kWh_m2, transmisividad_global, df_results
 
 # --- Interfaz de Usuario ---
-st.title("☀️ Estudio Solar Anual para Invernaderos Mediterráneos")
-st.markdown("**Calcula la transmisividad diaria para todos los días del año. Modelo de cielo despejado (Ineichen).**")
+st.title("☀️ **PAGINA EN PRUEBAS** Estudio Solar Anual para Invernaderos Mediterráneos")
+st.markdown("**Calcula la transmisividad diaria para todos los días del año. EL MODELO NO ES EXPLOTABLE. ES UNA VERSIÓN EN PRUEBAS.**")
 st.sidebar.image("https://github.com/Jhrodri/open/blob/main/logo.png?raw=true", width=300)
 st.sidebar.header("🔧 Parámetros de Entrada")
 roof_type = st.sidebar.radio("Tipo de Cubierta", ["A dos aguas", "Curva"])
