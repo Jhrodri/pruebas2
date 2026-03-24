@@ -198,11 +198,13 @@ def scale_solar_model(ghi_ideal, dni_ideal, dhi_ideal, times, measured_MJ):
         return dni_ideal * f, dhi_ideal * f, ghi_ideal * f, "real"
     return dni_ideal, dhi_ideal, ghi_ideal, "ideal"
 
+TRANS_DIFUSA = 0.75  # Transmisividad hemisférica fija para la componente difusa (PE tricapa)
+
 def calculate_transmitted_irradiance(poa, tilt, azimuth, solar_position):
     aoi = pvlib.irradiance.aoi(tilt, azimuth, solar_position['apparent_zenith'], solar_position['azimuth'])
     aoi[aoi > 90] = 90
     trans = np.clip(0.90647838 + (-0.00277529 * aoi) + (0.00014437 * aoi**2) + (-0.00000260 * aoi**3), 0, 1)
-    return poa['poa_direct'] * trans
+    return poa['poa_direct'] * trans + poa['poa_diffuse'] * TRANS_DIFUSA
 
 def finalize_results(irradiancia_suelo, ghi_real, times, aportes=None):
     intervalo_horas = (times[1] - times[0]).total_seconds() / 3600
@@ -285,7 +287,7 @@ def csv_para_excel(df):
     return df.to_csv(index=False, sep=";", decimal=",", encoding="utf-8-sig")
 
 # ── INTERFAZ ──────────────────────────────────────────────────────────────────
-st.title("☀️ PAGINA EN PRUEBAS Transmisividad Solar en Invernaderos Mediterráneos")
+st.title("☀️ APLICACIÓN EN PRUEBAS. VERSIÓN NO EXPLOTABLE Transmisividad Solar en Invernaderos Mediterráneos")
 
 st.sidebar.image("https://github.com/Jhrodri/open/blob/main/logo.png?raw=true", width=300)
 
@@ -435,7 +437,8 @@ else:
 # ── PIE ───────────────────────────────────────────────────────────────────────
 st.sidebar.markdown("""
 <div style="text-align: center;">
-    <p>© jhrodri</p>
+    <p>© Hernández, J., Bonachela, S. (2026)</p>
     <p>Licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0</a></p>
 </div>
 """, unsafe_allow_html=True)
+
