@@ -285,7 +285,7 @@ def csv_para_excel(df):
     return df.to_csv(index=False, sep=";", decimal=",", encoding="utf-8-sig")
 
 # ── INTERFAZ ──────────────────────────────────────────────────────────────────
-st.title("☀️ Transmisividad Solar en Invernaderos Mediterráneos")
+st.title("☀️ PAGINA EN PRUEBAS Transmisividad Solar en Invernaderos Mediterráneos")
 
 st.sidebar.image("https://github.com/Jhrodri/open/blob/main/logo.png?raw=true", width=300)
 
