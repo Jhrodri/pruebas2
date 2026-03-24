@@ -45,8 +45,7 @@ ESTACIONES_POR_PROVINCIA = {
     "23": {
         "1": "Huesa", "2": "Pozo Alcón", "3": "San José de los Propios",
         "4": "Sabiote", "5": "Torreblascopedro", "6": "Alcaudete",
-        "7": "Mancha Real", "8": "Ubeda", "9": "La Carolina",
-        "10": "Villacarrillo", "11": "Chiclana de Segura", "12": "La Higuera de Arjona",
+        "7": "Mancha Real", "8": "Ubeda", "11": "Chiclana de Segura", "12": "La Higuera de Arjona",
         "14": "Santo Tomé", "15": "Jaén", "16": "Marmolejo",
         "101": "Torreperogil", "102": "Villacarrillo", "103": "Jodar",
         "104": "IFAPA Centro Menjibar",
@@ -67,6 +66,84 @@ ESTACIONES_POR_PROVINCIA = {
         "21": "IFAPA Centro de Los Palacios", "22": "Villanueva del Río y Minas",
         "101": "IFAPA Centro Las Torres-Tomejil. Finca Tomejil",
     },
+}
+
+COORDENADAS_ESTACIONES = {
+    "04": {
+        "1": (36.787222, -2.704167), "2": (36.835278, -2.402222),
+        "4": (37.091111, -2.302222), "5": (37.156667, -2.838611),
+        "6": (37.388889, -1.770278), "7": (37.412222, -1.884167),
+        "8": (37.256667, -1.800278), "10": (36.746667, -2.992222),
+        "11": (36.950556, -2.158056), "12": (37.378333, -2.459444),
+    },
+    "11": {
+        "1": (36.756944, -6.017222), "2": (36.6425, -6.013333),
+        "4": (36.843056, -5.623611), "5": (36.332778, -6.1325),
+        "6": (36.285, -5.84),        "7": (36.413611, -5.383611),
+        "10": (36.604427, -6.171478), "11": (36.718889, -6.33),
+        "101": (36.750833, -6.399722),
+    },
+    "14": {
+        "1": (38.254167, -5.209444), "4": (37.719722, -5.16),
+        "5": (37.913889, -4.503889), "6": (37.856944, -4.802778),
+        "7": (37.522222, -4.885278), "8": (37.691389, -4.305833),
+        "9": (37.725556, -5.226944), "101": (37.498056, -4.430833),
+        "102": (38.496111, -5.115278),
+    },
+    "18": {
+        "1": (37.564444, -2.7675),   "2": (37.875833, -2.381667),
+        "3": (37.169167, -4.138056), "5": (37.416389, -3.551389),
+        "6": (37.190278, -3.149722), "7": (36.923056, -3.183889),
+        "8": (36.990278, -4.153611), "10": (37.018611, -3.600278),
+        "11": (36.751667, -3.678889), "12": (37.241867, -3.785572),
+        "101": (37.171944, -3.638333), "102": (37.215025, -2.963481),
+    },
+    "21": {
+        "2": (37.3025, -7.243056),   "3": (37.412222, -7.059722),
+        "5": (37.346944, -6.735278), "6": (37.958056, -6.945),
+        "7": (37.551944, -7.248333), "8": (37.660833, -6.599167),
+        "9": (37.366944, -6.541389), "10": (37.148056, -6.476389),
+        "11": (37.308862, -7.015414), "12": (37.191556, -6.838311),
+        "101": (37.240278, -6.802222),
+    },
+    "23": {
+        "1": (37.747222, -3.061667), "2": (37.671667, -2.93),
+        "3": (37.857778, -3.230278), "4": (38.079444, -3.235278),
+        "5": (37.988611, -3.689167), "6": (37.577222, -4.078333),
+        "7": (37.916389, -3.596389), "8": (37.942778, -3.300278),
+        "11": (38.302778, -2.996389), "12": (37.948611, -4.0075),
+        "14": (38.029167, -3.082778), "15": (37.890556, -3.771111),
+        "16": (38.048889, -4.1825),  "101": (37.974167, -3.243889),
+        "102": (38.063333, -3.200278), "103": (37.878333, -3.334167),
+        "104": (37.940833, -3.7875),
+    },
+    "29": {
+        "1": (36.756389, -4.5375),   "2": (36.795833, -4.131389),
+        "4": (36.444444, -5.209722), "6": (37.138333, -4.835833),
+        "7": (36.673611, -4.503056), "8": (36.766667, -4.715),
+        "9": (36.727778, -4.678056), "10": (37.034167, -4.5625),
+        "11": (37.103847, -4.418275), "101": (36.728889, -4.560556),
+    },
+    "41": {
+        "2": (37.015556, -5.884444), "3": (36.976389, -6.126111),
+        "5": (37.151667, -6.273333), "7": (37.225833, -6.133611),
+        "8": (37.08, -6.046389),     "9": (37.592778, -5.076944),
+        "10": (37.525, -5.228056),   "11": (37.255, -5.134722),
+        "12": (37.456667, -5.924722), "13": (37.421667, -6.255),
+        "15": (37.660833, -5.540556), "16": (37.176111, -5.672778),
+        "17": (37.514444, -6.064167), "18": (37.218056, -5.350833),
+        "19": (37.5125, -5.963889),  "20": (37.113611, -6.121111),
+        "21": (37.186111, -5.945833), "22": (37.5925, -5.688611),
+        "101": (37.400833, -5.5875),
+    },
+}
+
+BLANQUEO = {
+    "Sin blanqueo": {"dosis": None,  "factor": 1.0},
+    "Ligero":       {"dosis": 17.5,  "factor": 0.9},
+    "Medio":        {"dosis": 25.0,  "factor": 0.7},
+    "Fuerte":       {"dosis": 40.0,  "factor": 0.4},
+    "Muy fuerte":   {"dosis": 100.0, "factor": 0.1},
 }
 
 BASE_URL     = "https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaws/datosdiarios"
@@ -194,8 +271,13 @@ def extract_noon_trans(df):
         return round((I_inv / I_ext) * 100, 2) if I_ext > 0 else None
     return None
 
+ESTRUCTURA_SOMBRA = {
+    "Invernadero Parral":                        0.90,
+    "Invernadero Industrial con cubierta curva": 0.85,
+}
+
 def run_calc(lat, lon, fecha, roof_type, greenhouse_azimuth, module_width, ridge_height):
-    if roof_type == "A dos aguas":
+    if roof_type == "Invernadero Parral":
         return calculate_radiation_gable(lat, lon, fecha, greenhouse_azimuth, module_width, ridge_height, 0)
     return calculate_radiation_curved(lat, lon, fecha, greenhouse_azimuth, module_width, ridge_height, 0)
 
@@ -203,20 +285,15 @@ def csv_para_excel(df):
     return df.to_csv(index=False, sep=";", decimal=",", encoding="utf-8-sig")
 
 # ── INTERFAZ ──────────────────────────────────────────────────────────────────
-st.title("☀️ SOLO PARA PRUEBAS Transmisividad Solar en Invernaderos Mediterráneos")
+st.title("☀️ Transmisividad Solar en Invernaderos Mediterráneos")
 
 st.sidebar.image("https://github.com/Jhrodri/open/blob/main/logo.png?raw=true", width=300)
 
 st.sidebar.header("🔧 Parámetros del invernadero")
-roof_type = st.sidebar.radio("Tipo de cubierta", ["A dos aguas", "Curva"])
+roof_type = st.sidebar.radio("Tipo de cubierta", list(ESTRUCTURA_SOMBRA.keys()))
 greenhouse_azimuth = st.sidebar.slider("Orientación (°)", 0, 359, 90, 1, help="0°=N, 90°=E, 180°=S, 270°=O")
 module_width  = st.sidebar.number_input("Ancho del módulo (m)", 1.0, 50.0, 8.0, 0.5)
 ridge_height  = st.sidebar.number_input("Altura máxima (m)", 0.0, 20.0, 1.5, 0.1)
-
-st.sidebar.divider()
-st.sidebar.subheader("📍 Ubicación")
-lat = st.sidebar.number_input("Latitud (°)",  -90.0,  90.0, 36.8, 0.5)
-lon = st.sidebar.number_input("Longitud (°)", -180.0, 180.0, -2.4, 0.5)
 
 st.sidebar.divider()
 st.sidebar.subheader("🌐 Estación RIA")
@@ -231,6 +308,17 @@ estacion_sel = st.sidebar.selectbox(
     options=list(estaciones_prov.keys()),
     format_func=lambda x: estaciones_prov[x],
 )
+lat, lon = COORDENADAS_ESTACIONES[provincia_sel][estacion_sel]
+
+st.sidebar.divider()
+st.sidebar.subheader("🪣 Blanqueo")
+blanqueo_sel = st.sidebar.selectbox(
+    "Tipo de blanqueo",
+    options=list(BLANQUEO.keys()),
+)
+if blanqueo_sel != "Sin blanqueo":
+    dosis = BLANQUEO[blanqueo_sel]["dosis"]
+    st.sidebar.caption(f"Dosis orientativa: **{dosis} kg de cal por cada 100 L de agua**")
 
 st.sidebar.divider()
 st.sidebar.subheader("📏 Medición real (opcional)")
@@ -254,9 +342,15 @@ if st.sidebar.button("Consultar y Calcular", type="primary"):
             fecha = date.today() - timedelta(days=i + 1)
             df_ria, _ = obtener_dato_diario(provincia_sel, estacion_sel, fecha)
             if df_ria is not None and not df_ria.empty:
+                row = df_ria.iloc[0]
                 dias_ria.append({
-                    'fecha': fecha,
-                    'radiacion': df_ria.iloc[0].get('radiacion', None),
+                    'fecha':         fecha,
+                    'radiacion':     row.get('radiacion',    None),
+                    'tempMedia':     row.get('tempMedia',    None),
+                    'tempMax':       row.get('tempMax',      None),
+                    'tempMin':       row.get('tempMin',      None),
+                    'humedadMedia':  row.get('humedadMedia', None),
+                    'et0':           row.get('et0',          None),
                 })
             if len(dias_ria) == TARGET_DAYS:
                 break
@@ -265,6 +359,7 @@ if st.sidebar.button("Consultar y Calcular", type="primary"):
         st.error(f"❌ No se encontraron datos para **{nombre_est}** en los últimos {MAX_LOOKBACK} días.")
     else:
         # 2. Calcular transmisividad para cada fecha
+        factor_est = ESTRUCTURA_SOMBRA[roof_type]
         resultados = []
         with st.spinner("⏳ Calculando transmisividad…"):
             for dia in dias_ria:
@@ -272,23 +367,34 @@ if st.sidebar.button("Consultar y Calcular", type="primary"):
                 t_noon = extract_noon_trans(df_day)
                 resultados.append({
                     'Fecha':              dia['fecha'].strftime('%d/%m/%Y'),
-                    'Rad. RIA (MJ/m²)':   dia['radiacion'],
-                    'T 12:00 (%)':        t_noon,
-                    'T media diaria (%)': round(t_media, 2),
+                    'Rad. RIA (MJ/m²)':  dia['radiacion'],
+                    'T media (°C)':      dia['tempMedia'],
+                    'T máxima (°C)':     dia['tempMax'],
+                    'T mínima (°C)':     dia['tempMin'],
+                    'HR media (%)':      dia['humedadMedia'],
+                    'ETo ext. (mm)':     dia['et0'],
+                    'T 12:00 (%)':       round(t_noon * factor_est, 2) if t_noon is not None else None,
+                    'T media diaria (%)': round(t_media * factor_est, 2),
                 })
 
         df_res    = pd.DataFrame(resultados)
         corrected = False
 
-        # 3. Corrección opcional
+        # 3. Corrección opcional (el teórico de referencia también lleva factor_est)
         if t_noon_real > 0:
             _, _, _, df_med, _ = run_calc(lat, lon, measurement_date, roof_type, greenhouse_azimuth, module_width, ridge_height)
             t_noon_teo_med = extract_noon_trans(df_med)
             if t_noon_teo_med and t_noon_teo_med > 0:
-                factor = t_noon_real / t_noon_teo_med
+                factor = t_noon_real / (t_noon_teo_med * factor_est)
                 df_res['T 12:00 (%)']        = df_res['T 12:00 (%)'].apply(lambda x: round(x * factor, 2) if x is not None else None)
                 df_res['T media diaria (%)'] = (df_res['T media diaria (%)'] * factor).round(2)
                 corrected = True
+
+        # 4. Blanqueo
+        factor_blanqueo = BLANQUEO[blanqueo_sel]["factor"]
+        if factor_blanqueo < 1.0:
+            df_res['T 12:00 (%)']        = df_res['T 12:00 (%)'].apply(lambda x: round(x * factor_blanqueo, 2) if x is not None else None)
+            df_res['T media diaria (%)'] = (df_res['T media diaria (%)'] * factor_blanqueo).round(2)
 
         st.session_state.results = {
             'df':               df_res,
@@ -296,6 +402,7 @@ if st.sidebar.button("Consultar y Calcular", type="primary"):
             'province':         nombre_prov,
             'corrected':        corrected,
             'measurement_date': measurement_date if corrected else None,
+            'blanqueo':         blanqueo_sel,
         }
 
 # ── RESULTADOS ────────────────────────────────────────────────────────────────
@@ -303,8 +410,15 @@ if st.session_state.results is not None:
     r = st.session_state.results
     st.subheader(f"📊 {r['station']} · {r['province']}")
 
+    mensajes = []
     if r['corrected']:
-        st.info(f"Valores corregidos con la medición del {r['measurement_date'].strftime('%d/%m/%Y')}.")
+        mensajes.append(f"Corregidos con la medición del {r['measurement_date'].strftime('%d/%m/%Y')}.")
+    if r['blanqueo'] != "Sin blanqueo":
+        dosis = BLANQUEO[r['blanqueo']]['dosis']
+        factor_b = BLANQUEO[r['blanqueo']]['factor']
+        mensajes.append(f"Blanqueo **{r['blanqueo']}** aplicado (factor {factor_b} · dosis orientativa {dosis} kg cal/100 L agua).")
+    if mensajes:
+        st.info("  \n".join(mensajes))
 
     st.dataframe(r['df'], use_container_width=True, hide_index=True)
 
@@ -325,4 +439,3 @@ st.sidebar.markdown("""
     <p>Licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0</a></p>
 </div>
 """, unsafe_allow_html=True)
-
