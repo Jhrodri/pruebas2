@@ -309,7 +309,7 @@ def add_derived_columns(df):
 
     def _pv_inv(row):
         pvs = row['PVS_ext_Tmin (kPa)']
-        f   = 1.03 * row['PVa_ext (kPa)'] + 0.7
+        f   = 1.03 * row['PVa_ext (kPa)'] + 0.27
         fn  = min if row['T media (°C)'] >= 25 else max
         return round(fn(pvs, f), 4)
 
@@ -879,8 +879,8 @@ Se calculan tres valores exteriores:
 
 | Condición | PV_inv |
 |---|---|
-| T media ≥ 25 °C | min(PVS_ext_Tmin, 1,03·PVa_ext + 0,7) |
-| T media < 25 °C | max(PVS_ext_Tmin, 1,03·PVa_ext + 0,7) |
+| T media ≥ 25 °C | min(PVS_ext_Tmin, 1,03·PVa_ext + 0,27) |
+| T media < 25 °C | max(PVS_ext_Tmin, 1,03·PVa_ext + 0,27) |
 
 Las presiones de saturación interiores se calculan con la misma ecuación de Magnus-Tetens aplicada
 a las temperaturas interiores estimadas (`PVs_inv`, `PVs_inv_pasivos`).
