@@ -326,7 +326,7 @@ def add_derived_columns(df):
     return df
 
 # ── INTERFAZ ──────────────────────────────────────────────────────────────────
-st.title("☀️ Transmisividad Solar en Invernaderos Mediterráneos")
+st.title("☀️ PAGINA EN PRUEBAS, NO ES EXPLOTABLE Transmisividad Solar en Invernaderos Mediterráneos")
 
 st.sidebar.image("https://github.com/Jhrodri/open/blob/main/logo.png?raw=true", width=300)
 
