@@ -286,8 +286,47 @@ def run_calc(lat, lon, fecha, roof_type, greenhouse_azimuth, module_width, ridge
 def csv_para_excel(df):
     return df.to_csv(index=False, sep=";", decimal=",", encoding="utf-8-sig")
 
+def add_derived_columns(df):
+    """Calcula y añade todas las columnas derivadas sobre el dataframe (in-place)."""
+    df['RADint (MJ/m²)'] = (df['Rad. RIA (MJ/m²)'] * df['T media diaria (%)'] / 100).round(2)
+
+    def _t_inv(row):
+        t = row['T media (°C)']
+        return round(t + 1.87, 2) if row['T máxima (°C)'] >= 25 else round(-0.02*t**2 + 1.494*t - 1.096, 2)
+
+    def _t_inv_pasivos(row):
+        t = row['T media (°C)']
+        return round(t + 1.87, 2) if row['T máxima (°C)'] >= 25 else round(-0.0012*t**2 + 0.849*t + 5.674, 2)
+
+    df['Tªinv (°C)']         = df.apply(_t_inv, axis=1)
+    df['Tªinv_pasivos (°C)'] = df.apply(_t_inv_pasivos, axis=1)
+
+    df['PVs_ext (kPa)']     = (0.6108 * np.exp(17.27 * df['T media (°C)']   / (df['T media (°C)']   + 237.3))).round(4)
+    df['PVa_ext (kPa)']     = (df['HR media (%)'] * df['PVs_ext (kPa)'] / 100).round(4)
+    df['PVS_ext_Tmin (kPa)'] = (0.6108 * np.exp(17.27 * df['T mínima (°C)'] / (df['T mínima (°C)'] + 237.3))).round(4)
+
+    df['PV_trasplante (kPa)'] = df[['PVa_ext (kPa)', 'PVS_ext_Tmin (kPa)']].min(axis=1).round(4)
+
+    def _pv_inv(row):
+        pvs = row['PVS_ext_Tmin (kPa)']
+        f   = 1.03 * row['PVa_ext (kPa)'] + 0.7
+        fn  = min if row['T media (°C)'] >= 25 else max
+        return round(fn(pvs, f), 4)
+
+    df['PV_inv (kPa)'] = df.apply(_pv_inv, axis=1)
+
+    df['PVs_inv (kPa)']         = (0.6108 * np.exp(17.27 * df['Tªinv (°C)']         / (df['Tªinv (°C)']         + 237.3))).round(4)
+    df['PVs_inv_pasivos (kPa)'] = (0.6108 * np.exp(17.27 * df['Tªinv_pasivos (°C)'] / (df['Tªinv_pasivos (°C)'] + 237.3))).round(4)
+
+    df['HR_inv_trasplante (%)']         = (100 * df['PV_trasplante (kPa)'] / df['PVs_inv (kPa)']        ).clip(upper=100).round(2)
+    df['HR_inv_trasplante_pasivos (%)'] = (100 * df['PV_trasplante (kPa)'] / df['PVs_inv_pasivos (kPa)']).clip(upper=100).round(2)
+    df['HR_inv (%)']         = (100 * df['PV_inv (kPa)'] / df['PVs_inv (kPa)']        ).clip(upper=100).round(2)
+    df['HR_inv_pasivos (%)'] = (100 * df['PV_inv (kPa)'] / df['PVs_inv_pasivos (kPa)']).clip(upper=100).round(2)
+
+    return df
+
 # ── INTERFAZ ──────────────────────────────────────────────────────────────────
-st.title("☀️ APLICACIÓN EN PRUEBAS. VERSIÓN NO EXPLOTABLE Transmisividad Solar en Invernaderos Mediterráneos")
+st.title("☀️ Transmisividad Solar en Invernaderos Mediterráneos")
 
 st.sidebar.image("https://github.com/Jhrodri/open/blob/main/logo.png?raw=true", width=300)
 
@@ -380,16 +419,17 @@ if st.sidebar.button("Consultar y Calcular", type="primary"):
                 })
 
         df_res    = pd.DataFrame(resultados)
-        corrected = False
+        corrected         = False
+        correction_factor = 1.0
 
         # 3. Corrección opcional (el teórico de referencia también lleva factor_est)
         if t_noon_real > 0:
             _, _, _, df_med, _ = run_calc(lat, lon, measurement_date, roof_type, greenhouse_azimuth, module_width, ridge_height)
             t_noon_teo_med = extract_noon_trans(df_med)
             if t_noon_teo_med and t_noon_teo_med > 0:
-                factor = t_noon_real / (t_noon_teo_med * factor_est)
-                df_res['T 12:00 (%)']        = df_res['T 12:00 (%)'].apply(lambda x: round(x * factor, 2) if x is not None else None)
-                df_res['T media diaria (%)'] = (df_res['T media diaria (%)'] * factor).round(2)
+                correction_factor = t_noon_real / (t_noon_teo_med * factor_est)
+                df_res['T 12:00 (%)']        = df_res['T 12:00 (%)'].apply(lambda x: round(x * correction_factor, 2) if x is not None else None)
+                df_res['T media diaria (%)'] = (df_res['T media diaria (%)'] * correction_factor).round(2)
                 corrected = True
 
         # 4. Blanqueo
@@ -398,13 +438,18 @@ if st.sidebar.button("Consultar y Calcular", type="primary"):
             df_res['T 12:00 (%)']        = df_res['T 12:00 (%)'].apply(lambda x: round(x * factor_blanqueo, 2) if x is not None else None)
             df_res['T media diaria (%)'] = (df_res['T media diaria (%)'] * factor_blanqueo).round(2)
 
+        # 5. Columnas derivadas
+        df_res = add_derived_columns(df_res)
+
         st.session_state.results = {
-            'df':               df_res,
-            'station':          nombre_est,
-            'province':         nombre_prov,
-            'corrected':        corrected,
-            'measurement_date': measurement_date if corrected else None,
-            'blanqueo':         blanqueo_sel,
+            'df':                df_res,
+            'station':           nombre_est,
+            'province':          nombre_prov,
+            'corrected':         corrected,
+            'measurement_date':  measurement_date if corrected else None,
+            'blanqueo':          blanqueo_sel,
+            'correction_factor': correction_factor,
+            'factor_est':        factor_est,
         }
 
 # ── RESULTADOS ────────────────────────────────────────────────────────────────
@@ -431,6 +476,58 @@ if st.session_state.results is not None:
         mime="text/csv",
         help="Separador ';' y decimal ',' listo para Excel en español",
     )
+
+    st.divider()
+    with st.expander("➕ Añadir día con datos propios"):
+        st.caption("Introduce los datos meteorológicos de un día concreto. La transmisividad se calculará con el modelo geométrico y los mismos factores activos (blanqueo y corrección).")
+        with st.form("manual_day_form"):
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                man_fecha = st.date_input("Fecha", date.today() - timedelta(days=1), key="man_fecha")
+                man_rad   = st.number_input("Radiación (MJ/m²)", 0.0, 50.0, 15.0, 0.1, key="man_rad")
+                man_et0   = st.number_input("ETo ext. (mm)", 0.0, 20.0, 3.0, 0.1, key="man_et0")
+            with col2:
+                man_tmed  = st.number_input("T media (°C)", -10.0, 50.0, 20.0, 0.1, key="man_tmed")
+                man_tmax  = st.number_input("T máxima (°C)", -10.0, 60.0, 25.0, 0.1, key="man_tmax")
+                man_tmin  = st.number_input("T mínima (°C)", -10.0, 40.0, 15.0, 0.1, key="man_tmin")
+            with col3:
+                man_hr    = st.number_input("HR media (%)", 0.0, 100.0, 70.0, 1.0, key="man_hr")
+
+            submitted = st.form_submit_button("➕ Añadir este día", type="primary")
+
+        if submitted:
+            factor_est_curr  = r.get('factor_est',        ESTRUCTURA_SOMBRA[roof_type])
+            factor_corr_curr = r.get('correction_factor', 1.0)
+            factor_blanq_curr = BLANQUEO[r['blanqueo']]['factor']
+
+            with st.spinner("⏳ Calculando transmisividad para la fecha indicada…"):
+                _, t_media_man, _, df_day_man, _ = run_calc(
+                    lat, lon, man_fecha, roof_type, greenhouse_azimuth, module_width, ridge_height
+                )
+            t_noon_man = extract_noon_trans(df_day_man)
+
+            t_noon_final  = round(t_noon_man  * factor_est_curr * factor_corr_curr * factor_blanq_curr, 2) if t_noon_man else None
+            t_media_final = round(t_media_man * factor_est_curr * factor_corr_curr * factor_blanq_curr, 2)
+
+            new_row = pd.DataFrame([{
+                'Fecha':               man_fecha.strftime('%d/%m/%Y') + ' ✎',
+                'Rad. RIA (MJ/m²)':   man_rad,
+                'T media (°C)':       man_tmed,
+                'T máxima (°C)':      man_tmax,
+                'T mínima (°C)':      man_tmin,
+                'HR media (%)':       man_hr,
+                'ETo ext. (mm)':      man_et0,
+                'T 12:00 (%)':        t_noon_final,
+                'T media diaria (%)': t_media_final,
+            }])
+
+            new_row = add_derived_columns(new_row)
+
+            st.session_state.results['df'] = pd.concat(
+                [st.session_state.results['df'], new_row], ignore_index=True
+            )
+            st.rerun()
+
 else:
     st.info("Configura los parámetros en el panel lateral y pulsa 'Consultar y Calcular'.")
 
