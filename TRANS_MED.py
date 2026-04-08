@@ -310,7 +310,7 @@ def add_derived_columns(df):
     def _pv_inv(row):
         pvs = row['PVS_ext_Tmin (kPa)']
         f   = 1.03 * row['PVa_ext (kPa)'] + 0.27
-        fn  = min if row['T media (°C)'] >= 25 else max
+        fn  = min if row['T máxima (°C)'] >= 25 else max
         return round(fn(pvs, f), 4)
 
     df['PV_inv (kPa)'] = df.apply(_pv_inv, axis=1)
